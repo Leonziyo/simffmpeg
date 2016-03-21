@@ -50,7 +50,7 @@ class Image {
 	 * @return array
 	 *
 	 */	
-	public static function resizeImage($sourcePath, $destinationPath) {
+	public static function convertImage($sourcePath, $destinationPath) {
 		$rawCommand = Simffmpeg::$binaryPath . " -i '$sourcePath' -y '$destinationPath' -hide_banner -loglevel error 2>&1";
 		
 		exec($rawCommand, $errors);
