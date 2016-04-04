@@ -149,4 +149,32 @@ class Video {
 		return $errors;
 	}
 	
+	/**
+	 * Get video length. 
+	 *
+	 *
+	 * @param string $sourcePath
+	 * @param string &$duration
+	 * @return array
+	 *
+	 */	
+	public static function getVideoLength($sourcePath, &$duration) {
+		$rawCommand = Simffmpeg::$binaryPath . " -i '$sourcePath' -hide_banner 2>&1";
+		
+		exec($rawCommand, $errors);
+		
+		$duration = -1;
+		//parse output to get duration
+		foreach($errors as $next) {
+			if(strpos($next, 'Duration: ') !== false) {
+				$duration = str_replace('Duration: ', '', $next);		
+				$duration = explode(',', $duration)[0];		
+				$duration = explode('.', $duration)[0];		
+				$duration = strtotime($duration) - strtotime('TODAY');		
+			}		
+		}
+		
+		return [];
+	}
+	
 }
